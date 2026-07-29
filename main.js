@@ -29,12 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
           const icon = btn.querySelector('.icon');
           if (icon) icon.textContent = '-';
           
-          // Assuming each btn corresponds to a content block if we had them all,
-          // but we only have one `.acc-content` in the HTML demo right now.
-          // If we had multiples, we could toggle `accContents[index].classList.add('active')`.
-          // For now, we'll just show the single content block when any button is active to simulate interaction.
-          if (accContents.length > 0) {
-            accContents[0].classList.add('active');
+          if (accContents[index]) {
+            accContents[index].classList.add('active');
           }
         }
       });
@@ -152,4 +148,28 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.why-labelx').forEach(el => {
     observer.observe(el);
   });
+  /* ─── WORK CARDS INTERACTIVITY ─── */
+  const workCards = document.querySelectorAll('.work-card');
+  if (workCards.length > 0) {
+    let currentMaxZIndex = 10;
+    
+    workCards.forEach(card => {
+      card.style.cursor = 'pointer';
+      card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+      
+      card.addEventListener('click', () => {
+        currentMaxZIndex++;
+        card.style.zIndex = currentMaxZIndex;
+      });
+      
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px)';
+        card.style.boxShadow = '-15px 15px 30px rgba(0,0,0,0.15)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.boxShadow = '-10px 0 20px rgba(0,0,0,0.1)';
+      });
+    });
+  }
 });
