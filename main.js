@@ -3,37 +3,30 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  /* ─── ACCORDION LOGIC FOR INDEX PAGE ─── */
-  const accBtns = document.querySelectorAll('.acc-btn');
-  const accContents = document.querySelectorAll('.acc-content');
+  /* ─── SERVICES LOGIC FOR INDEX PAGE ─── */
+  const serviceRows = document.querySelectorAll('.service-row');
   
-  if (accBtns.length > 0) {
-    accBtns.forEach((btn, index) => {
-      btn.addEventListener('click', () => {
-        // Toggle the clicked one
-        const isActive = btn.style.fontSize === '2.5rem';
-        
-        // Reset all
-        accBtns.forEach(b => {
-          b.style.fontSize = '1.2rem';
-          const icon = b.querySelector('.icon');
-          if (icon) icon.textContent = '+';
-        });
-        accContents.forEach(c => {
-          c.classList.remove('active');
-        });
-        
-        // Activate clicked if it wasn't active
-        if (!isActive) {
-          btn.style.fontSize = '2.5rem';
-          const icon = btn.querySelector('.icon');
-          if (icon) icon.textContent = '-';
+  if (serviceRows.length > 0) {
+    serviceRows.forEach((row) => {
+      const header = row.querySelector('.service-header');
+      if (header) {
+        header.addEventListener('click', () => {
+          const isActive = row.classList.contains('active');
           
-          if (accContents[index]) {
-            accContents[index].classList.add('active');
+          // Optionally close others
+          serviceRows.forEach(r => {
+            r.classList.remove('active');
+            const icon = r.querySelector('.service-icon');
+            if (icon) icon.textContent = '+';
+          });
+          
+          if (!isActive) {
+            row.classList.add('active');
+            const icon = row.querySelector('.service-icon');
+            if (icon) icon.textContent = '-';
           }
-        }
-      });
+        });
+      }
     });
   }
 

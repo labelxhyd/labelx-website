@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project - LabelX Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-links">
+      <a href="about.html">About</a>
+      <a href="work.html" class="active">Work</a>
+    </div>
+    <div class="nav-logo">
+      <a href="index.html">
+        <img src="assets/images/Logo_Top.png" alt="LabelX Studio" style="height: 22px; object-fit: contain;">
+      </a>
+    </div>
+  </nav>
+
+  <main id="project-container" style="display: none;">
+    <div class="project-detail-header">
+      <h1 id="project-title" class="huge-project-title"></h1>
+      <p id="project-subtitle" class="project-tagline"></p>
+      
+      <div class="project-metadata" id="project-metadata">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <div class="project-detail-hero">
+      <img id="project-hero-image" src="" alt="Project Hero" />
+    </div>
+
+    <div class="project-detail-content">
+      <div class="project-info-label">
+        <h3>INFO</h3>
+      </div>
+      <div class="project-info-text">
+        <p id="project-description"></p>
+      </div>
+    </div>
+
+    <div class="project-detail-gallery" id="project-gallery">
+      <!-- Injected via JS -->
+    </div>
+
+    <div class="project-related-section">
+      <h3 class="related-title">More Work</h3>
+      <div class="projects-grid" id="related-projects-grid">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+    
+    <div class="project-detail-footer">
+      <a href="work.html" class="back-to-work">← Back to all projects</a>
+    </div>
+  </main>
+
+  <div id="error-container" style="display: none; padding: 10rem 4vw; text-align: center; min-height: 50vh;">
+    <h2>Project not found</h2>
+    <a href="work.html" style="text-decoration: underline; margin-top: 2rem; display: inline-block;">Return to Work page</a>
+  </div>
+
+  <!-- Unified Footer -->
+  <footer class="new-footer section-dark">
+    <div class="footer-top-grid">
+      <div class="footer-menu-col">
+        <h4>Menu</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="work.html">Work</a></li>
+        </ul>
+      </div>
+      <div class="footer-social-col">
+        <h4>Social</h4>
+        <ul>
+          <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+          <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="footer-hero-col">
+        <h2>We build fashion brands. From the first sketch to the last campaign.</h2>
+        <a href="contact.html" class="get-in-touch">Get In Touch</a>
+      </div>
+    </div>
+    <div class="footer-bottom-logo">
+      <img src="assets/images/Logo_Bottom.png" alt="LABELX.STUDIO" />
+    </div>
+  </footer>
+
+  <script src="projectsData.js"></script>
+  <script src="project.js"></script>
+</body>
+</html>
