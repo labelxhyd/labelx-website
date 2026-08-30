@@ -38,7 +38,8 @@ html, body {
 }
 
 body {
-  overflow-x: hidden; /* Moved from html to body, or wrapping container */
+  overflow-x: hidden;
+  padding-top: 84px; /* Ensure content isn't hidden under the fixed nav */
 }
 
 img {
@@ -64,9 +65,12 @@ ul {
   align-items: center;
   padding: 2rem var(--padding-x);
   background: var(--color-bg);
-  position: sticky; /* Makes it stick to the top */
-  top: 0; /* Sticks to the very top */
-  z-index: 9999; /* Ensures it stays above all other content */
+  position: fixed; /* Use fixed so it doesn't break with body overflow-x hidden */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  transition: transform 0.3s ease-in-out;
 }
 
 .nav-links {
@@ -264,6 +268,7 @@ ul {
   .footer-top-grid {
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
+    margin-bottom: 4rem;
   }
   .footer-hero-col {
     grid-column: 1 / -1;
@@ -444,10 +449,7 @@ ul {
   align-items: center;
   padding: 2.5rem 2vw;
   cursor: pointer;
-  transition: padding-left 0.3s ease, background-color 0.3s ease;
-}
-.service-header:hover {
-  padding-left: calc(2vw + 1rem);
+  transition: background-color 0.3s ease;
 }
 .service-number {
   font-size: 2rem;
@@ -529,6 +531,10 @@ ul {
   .service-details-inner {
     grid-template-columns: 1fr;
     gap: 2rem;
+    padding: 0;
+  }
+  .service-row.active .service-details-inner {
+    padding: 0 0 4rem;
   }
   .service-image {
     max-width: 100%;
@@ -625,21 +631,26 @@ ul {
 
 @media (max-width: 768px) {
   .stats-section {
-    height: auto;
-    min-height: 70vh;
+    height: 70vh;
   }
   .stats-headline {
     padding-bottom: 4rem;
   }
   .stats-bar {
-    flex-direction: column;
+    flex-direction: row;
   }
   .stat-divider {
-    width: 100%;
-    height: 1px;
+    width: 1px;
+    height: auto;
   }
   .stat-item {
-    padding: 2rem 1rem;
+    padding: 1rem 0.5rem;
+  }
+  .stat-number {
+    font-size: 2rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
   }
 }
 
@@ -655,10 +666,11 @@ ul {
   margin-bottom: 2rem;
 }
 .hero-right-text p {
-  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
-  line-height: 1.1;
-  font-weight: 500;
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 700;
+  line-height: 0.9;
   letter-spacing: -0.02em;
+  text-transform: uppercase;
   margin: 0;
   color: var(--color-text);
 }
@@ -793,6 +805,10 @@ ul {
   }
   .huge-about-text {
     font-size: 5rem;
+  }
+  .hero-right-text p {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+    line-height: 1.1;
   }
 }
 
@@ -1222,6 +1238,9 @@ ul {
   }
   
   /* Navigation */
+  body {
+    padding-top: 60px; /* Mobile nav is shorter */
+  }
   .hamburger {
     display: flex;
     order: -1;
@@ -1231,7 +1250,6 @@ ul {
     padding: 1rem var(--padding-x);
     justify-content: space-between;
     align-items: center;
-    position: relative;
   }
   .nav-logo {
     position: absolute;
@@ -1267,6 +1285,8 @@ ul {
   .huge-headline { 
     font-size: clamp(2rem, 10vw, 3.5rem); 
     text-align: center;
+    margin-top: 3rem;
+    line-height: 1.1;
   }
   .large-headline { font-size: clamp(1.8rem, 7vw, 2.5rem); }
 

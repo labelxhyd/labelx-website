@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Mobile Menu Toggle
+// Mobile Menu Toggle and Nav Scroll Behavior
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
@@ -177,5 +177,30 @@ document.addEventListener("DOMContentLoaded", () => {
       hamburger.classList.toggle("active");
       navLinks.classList.toggle("active");
     });
+  }
+
+  /* ─── MOBILE NAV SCROLL BEHAVIOR ─── */
+  const nav = document.querySelector('.main-nav');
+  let lastScrollY = window.scrollY;
+
+  if (nav) {
+    window.addEventListener('scroll', () => {
+      // Only apply this behavior on mobile view (max-width: 768px)
+      if (window.innerWidth <= 768) {
+        const currentScrollY = window.scrollY;
+        
+        // Hide if scrolling down and past the header height, show if scrolling up
+        if (currentScrollY > lastScrollY && currentScrollY > 80) {
+          nav.style.transform = 'translateY(-100%)';
+        } else {
+          nav.style.transform = 'translateY(0)';
+        }
+        
+        lastScrollY = currentScrollY;
+      } else {
+        // Ensure nav is visible on desktop if window is resized
+        nav.style.transform = 'translateY(0)';
+      }
+    }, { passive: true });
   }
 });
