@@ -319,7 +319,7 @@ ul {
 }
 
 .hero-image-wrapper img {
-  width: 70%;
+  width: 40%;
   aspect-ratio: 1/1;
   object-fit: cover;
 }
@@ -1521,6 +1521,10 @@ ul {
     text-align: center;
     margin-top: 3rem;
     line-height: 1.1;
+  }
+
+  .hero-image-wrapper img {
+    width: 90%;
   }
 
   .large-headline {
