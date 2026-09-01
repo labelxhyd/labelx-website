@@ -1398,6 +1398,7 @@ ul {
 .contact-hero h1 {
   font-size: clamp(4rem, 8vw, 8rem);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .contact-content-split {
@@ -1425,7 +1426,10 @@ ul {
 
 .contact-large-info {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6rem;
   padding: 4rem var(--padding-x) 8rem;
 }
 
@@ -1434,6 +1438,7 @@ ul {
   font-weight: 500;
   text-decoration: none;
   color: black;
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {
@@ -1639,17 +1644,18 @@ ul {
   /* Contact Page */
   .contact-hero h1 {
     text-align: center;
+    font-size: clamp(1.8rem, 10vw, 3.5rem);
   }
 
   .contact-large-info {
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
   }
 
   .contact-large-info a {
-    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    white-space: nowrap;
   }
 
   .contact-left-info {
