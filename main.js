@@ -33,23 +33,109 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ─── FORM HANDLING ─── */
   const forms = document.querySelectorAll('form');
   forms.forEach(form => {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn ? btn.textContent : 'Submit';
+      const action = form.getAttribute('action');
+
+      // Find or create inline status message element
+      let statusMsg = form.querySelector('.form-status-msg');
+      if (!statusMsg) {
+        statusMsg = document.createElement('div');
+        statusMsg.className = 'form-status-msg';
+        statusMsg.setAttribute('aria-live', 'polite');
+        form.appendChild(statusMsg);
+      }
+      statusMsg.className = 'form-status-msg';
+      statusMsg.textContent = '';
+      statusMsg.removeAttribute('style');
+
       if (btn) {
-        const originalText = btn.textContent;
-        btn.textContent = 'Submitting...';
+        btn.textContent = 'Sending...';
         btn.disabled = true;
-        
+      }
+
+      // Check if browsing directly via local file protocol
+      if (window.location.protocol === 'file:') {
         setTimeout(() => {
-          btn.textContent = 'Success!';
-          setTimeout(() => {
+          if (btn) {
             btn.textContent = originalText;
             btn.disabled = false;
-            form.reset();
-          }, 2000);
-        }, 1000);
+          }
+          statusMsg.className = 'form-status-msg is-error';
+          statusMsg.style.display = 'block';
+          statusMsg.textContent = "The message didn't go. FormSubmit requires a live web server or GitHub Pages to send emails (browsing as a local file:// is blocked by security).";
+        }, 500);
+        return;
       }
+
+      // If form is hooked to an external service (web3forms, formspree, formsubmit)
+      if (action && (action.includes('web3forms.com') || action.includes('formspree.io') || action.includes('formsubmit.co'))) {
+        try {
+          let endpoint = action;
+          if (action.includes('formsubmit.co') && !action.includes('/ajax/')) {
+            endpoint = action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+          }
+
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+
+          const data = await response.json().catch(() => ({}));
+
+          const isSuccess = response.ok && (
+            data.success === true ||
+            data.success === "true" ||
+            data.ok === true ||
+            (!('success' in data) && !('error' in data))
+          );
+
+          if (isSuccess) {
+            if (btn) btn.textContent = 'Sent';
+            statusMsg.className = 'form-status-msg is-success';
+            statusMsg.style.display = 'block';
+            statusMsg.textContent = 'We have received the details, we will connect with you soon.';
+            form.reset();
+          } else {
+            const msg = data.message || data.error || "The message didn't go";
+            console.error('Submission error response:', msg, data);
+            throw new Error(msg);
+          }
+        } catch (error) {
+          console.error('Submission error:', error);
+          if (btn) btn.textContent = originalText;
+          statusMsg.className = 'form-status-msg is-error';
+          statusMsg.style.display = 'block';
+          statusMsg.textContent = "The message didn't go. Please try again.";
+        } finally {
+          setTimeout(() => {
+            if (btn) {
+              btn.textContent = originalText;
+              btn.disabled = false;
+            }
+          }, 3500);
+        }
+        return;
+      }
+
+      // Fallback animation for other mock forms
+      setTimeout(() => {
+        if (btn) btn.textContent = 'Sent';
+        statusMsg.className = 'form-status-msg is-success';
+        statusMsg.textContent = 'We have received the details, we will connect with you soon.';
+        form.reset();
+        setTimeout(() => {
+          if (btn) {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }
+        }, 3500);
+      }, 800);
     });
   });
   /* ─── HERO SLIDESHOW LOGIC ─── */
