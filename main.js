@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
       }
 
-      // Check if browsing directly via local file protocol
-      if (window.location.protocol === 'file:') {
+      // Check if browsing directly via local file protocol on FormSubmit
+      if (window.location.protocol === 'file:' && action && action.includes('formsubmit.co')) {
         setTimeout(() => {
           if (btn) {
             btn.textContent = originalText;
@@ -73,18 +73,34 @@ document.addEventListener('DOMContentLoaded', () => {
       // If form is hooked to an external service (web3forms, formspree, formsubmit)
       if (action && (action.includes('web3forms.com') || action.includes('formspree.io') || action.includes('formsubmit.co'))) {
         try {
-          let endpoint = action;
-          if (action.includes('formsubmit.co') && !action.includes('/ajax/')) {
-            endpoint = action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
-          }
+          let response;
+          if (action.includes('web3forms.com')) {
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
 
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: {
-              'Accept': 'application/json'
+            response = await fetch(action, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: json
+            });
+          } else {
+            let endpoint = action;
+            if (action.includes('formsubmit.co') && !action.includes('/ajax/')) {
+              endpoint = action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
             }
-          });
+
+            response = await fetch(endpoint, {
+              method: 'POST',
+              body: new FormData(form),
+              headers: {
+                'Accept': 'application/json'
+              }
+            });
+          }
 
           const data = await response.json().catch(() => ({}));
 
