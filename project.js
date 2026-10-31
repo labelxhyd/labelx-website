@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   relatedKeys.forEach(key => {
     const p = projectsData[key];
     relatedHTML += `
-      <a href="project.html?id=${key}" class="project-card">
+      <a href="project?id=${key}" class="project-card">
         <div class="project-title-wrapper">
           <h2 class="project-title">${p.title}</h2>
         </div>
